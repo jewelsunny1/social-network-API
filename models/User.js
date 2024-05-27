@@ -19,7 +19,7 @@ const userSchema= new Schema(
         thoughts:[
           {
             type:Schema.Types.ObjectId,
-            ref:'Thought'//refers to Thought model
+            ref:'Thought'//refers to Thought model//remember that ONLY models can perform static mehtods(CRUD operations)
           }
         ],
         friends:[//stores array of objectIds,each representing a friend (another user) references other user documents(obj/rows)
@@ -33,7 +33,14 @@ const userSchema= new Schema(
         toJSON:{//virtuals must be converted to JSON b/c virtuals are NOT stored in MongoDB database, they are computed dynamically based in other fields in the document//now friendCount virtual property can be included in the output
           virtuals: true//
         },
-        id:false//removes the dfault virtual property from output
+        id:false//removes the default virtual property from output
       });
+      //Virtuals are mainly used and computed during read operations such as find, findOne, and findById.
+      userSchema.virtual(friendCount).get(function(){
+        return this.friends.length
+      });//this creates a virtual property call 'friendCount'that retrieves the length of the user's friends array field on query.
+      
 
-      const User= model('User', userSchema)//Model:User, which follows the layout/blueprint Schema created
+      const User= model('User', userSchema);//intialize User model//Model:User, which follows the layout/blueprint Schema created
+
+      module.exports= User;
