@@ -36,7 +36,7 @@ const userSchema= new Schema(
         id:false//removes the default virtual property from output
       });
       //Virtuals are mainly used and computed during read operations such as find, findOne, and findById.
-      userSchema.virtual(friendCount).get(function(){
+      userSchema.virtual('friendCount').get(function(){
         return this.friends.length
       });//this creates a virtual property call 'friendCount'that retrieves the length of the user's friends array field on query.
       
